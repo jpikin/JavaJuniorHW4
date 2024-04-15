@@ -3,7 +3,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Random;
 
-public class Courses {
+public class Course {
 
     private static final Random random = new Random();
     private static final String[] courses = new String[]{"Алгебра", "История", "География", "Литература"};
@@ -14,26 +14,26 @@ public class Courses {
 
     int duration;
 
-    public static Courses create() {
-        return new Courses(courses[random.nextInt(courses.length)], random.nextInt(1, 5));
+    public static Course create() {
+        return new Course(courses[random.nextInt(courses.length)], random.nextInt(1, 5));
     }
 
-    Courses() {
+    Course() {
     }
 
-    Courses(String title, int duration) {
+    Course(String title, int duration) {
         this.duration = duration;
         this.title = title;
     }
 
-    Courses(int id, String title, int duration) {
+    Course(int id, String title, int duration) {
         this.id = id;
         this.title = title;
         this.duration = duration;
     }
 
     public void updateDuration(){
-        duration = random.nextInt(20, 26);
+        duration = random.nextInt(1, 6);
     }
 
     public void updateTitle(){

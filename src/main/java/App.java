@@ -28,12 +28,12 @@ public class App {
             // Вставка данных
             int count = random.nextInt(5, 11);
             for (int i = 0; i < count; i++){
-                insertData(connection, Courses.create());
+                insertData(connection, Course.create());
             }
             System.out.println("Insert data successfully");
 
             // Чтение данных
-            Collection<Courses> courses = readData(connection);
+            Collection<Course> courses = readData(connection);
             for (var course: courses)
                 System.out.println(course);
             System.out.println("Read data successfully");
@@ -54,20 +54,20 @@ public class App {
     }
 
     private static void createDatabase(Connection connection) throws SQLException{
-        String createDatabaseSQL =  "CREATE DATABASE IF NOT EXISTS coursesDB;";
+        String createDatabaseSQL =  "CREATE DATABASE IF NOT EXISTS SchoolDB;";
         PreparedStatement statement = connection.prepareStatement(createDatabaseSQL);
         statement.execute();
     }
 
     private static void useDatabase(Connection connection) throws SQLException {
-        String useDatabaseSQL =  "USE coursesDB;";
+        String useDatabaseSQL =  "USE SchoolDB;";
         try (PreparedStatement statement = connection.prepareStatement(useDatabaseSQL)) {
             statement.execute();
         }
     }
 
     private static void createTable(Connection connection) throws SQLException {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS courses (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255), duration INT);";
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS Courses (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255), duration INT);";
         try (PreparedStatement statement = connection.prepareStatement(createTableSQL)) {
             statement.execute();
         }
@@ -79,8 +79,8 @@ public class App {
      * @param course Курс
      * @throws SQLException Исключение при выполнении запроса
      */
-    private static void insertData(Connection connection, Courses course) throws SQLException {
-        String insertDataSQL = "INSERT INTO courses (title, duration) VALUES (?, ?);";
+    private static void insertData(Connection connection, Course course) throws SQLException {
+        String insertDataSQL = "INSERT INTO Courses (title, duration) VALUES (?, ?);";
         try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
             statement.setString(1, course.getTitle());
             statement.setInt(2, course.getDuration());
@@ -94,16 +94,16 @@ public class App {
      * @return Коллекция курсов
      * @throws SQLException Исключение при выполнении запроса
      */
-    private static Collection<Courses> readData(Connection connection) throws SQLException {
-        ArrayList<Courses> coursesList = new ArrayList<>();
-        String readDataSQL = "SELECT * FROM courses;";
+    private static Collection<Course> readData(Connection connection) throws SQLException {
+        ArrayList<Course> coursesList = new ArrayList<>();
+        String readDataSQL = "SELECT * FROM Courses;";
         try (PreparedStatement statement = connection.prepareStatement(readDataSQL)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String title = resultSet.getString("title");
                 int duration = resultSet.getInt("duration");
-                coursesList.add(new Courses(id, title, duration));
+                coursesList.add(new Course(id, title, duration));
             }
             return coursesList;
         }
@@ -115,8 +115,8 @@ public class App {
      * @param course Студент
      * @throws SQLException Исключение при выполнении запроса
      */
-    private static void updateData(Connection connection, Courses course) throws SQLException {
-        String updateDataSQL = "UPDATE courses SET title=?, duration=? WHERE id=?;";
+    private static void updateData(Connection connection, Course course) throws SQLException {
+        String updateDataSQL = "UPDATE Courses SET title=?, duration=? WHERE id=?;";
         try (PreparedStatement statement = connection.prepareStatement(updateDataSQL)) {
             statement.setString(1, course.getTitle());
             statement.setInt(2, course.getDuration());
@@ -132,7 +132,7 @@ public class App {
      * @throws SQLException Исключение при выполнении запроса
      */
     private static void deleteData(Connection connection, int id) throws SQLException {
-        String deleteDataSQL = "DELETE FROM courses WHERE id=?;";
+        String deleteDataSQL = "DELETE FROM Courses WHERE id=?;";
         try (PreparedStatement statement = connection.prepareStatement(deleteDataSQL)) {
             statement.setLong(1, id);
             statement.executeUpdate();

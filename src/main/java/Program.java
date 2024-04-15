@@ -21,7 +21,7 @@ public class Program {
 // Создание фабрики сессий
         SessionFactory sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Courses.class)
+                .addAnnotatedClass(Course.class)
                 .buildSessionFactory();
 
 
@@ -33,7 +33,7 @@ public class Program {
             session.beginTransaction();
 
             // Создание объекта
-            Courses course = Courses.create();
+            Course course = Course.create();
 
             // Сохранение объекта в базе данных
             session.save(course);
@@ -41,7 +41,7 @@ public class Program {
 
 
             // Чтение объекта из базы данных
-            Courses retrievedCourse = session.get(Courses.class, course.getId());
+            Course retrievedCourse = session.get(Course.class, course.getId());
             System.out.println("Object course retrieved successfully");
             System.out.println("Retrieved course object: " + retrievedCourse);
 
@@ -52,7 +52,7 @@ public class Program {
             System.out.println("Object course update successfully");
 
 
-            Courses retrievedCourse2 = session.get(Courses.class, 5);
+            Course retrievedCourse2 = session.get(Course.class, 5);
             // Удаление объекта
             session.delete(retrievedCourse2);
             System.out.println("Object course delete successfully");
